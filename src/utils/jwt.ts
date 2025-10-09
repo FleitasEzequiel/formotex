@@ -8,15 +8,14 @@ type accessTokenPayload = {
     "exp":string
 }
 
-//Esta función crea un JsonWebToken
-export const generateAccessToken = (ID : ObjectId) => sign({
+export const generarTokenAcceso = (ID : ObjectId) => sign({
     "_id":ID
 },"mysecret",{
     "expiresIn":"4h"
 })  
 
 //Esto de acá decodifica el JsonWebToken
-export const decodeAccessToken = <TPayload extends object = accessTokenPayload>(token: string) => {
+export const decodificarTokenAcceso = <TPayload = accessTokenPayload>(token: string) => {
     try {
         const payload = verify(token,"mysecret") as TPayload
         return {payload} 

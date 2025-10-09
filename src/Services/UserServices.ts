@@ -1,7 +1,17 @@
+import { ObjectId } from "mongodb"
+import { Admin, Empleado } from "../Classes/Usuario"
 import db from "../utils/database"
 
-export const userExists = async(email: string) => ((await db.getOne("Usuarios", {email})) == null) ? false : true 
+class UserServices {
+    public esPrimerUsuario = async () => (await db.get("Usuarios")).length == 0
+    public usuarioExiste = async (email: Empleado) => ((await db.getOne("Usuarios", { email })) == null) ? false : true
+    public añadirUsuario = async (user: Empleado | Admin) => await db.insert("Usuarios", user.aJSON())
+    public obtenerUsuario = async (user: Empleado) => await db.getOne("Usuarios", { email: user.email, contrasenia: user.contrasenia })
+    public obtenerUsuarioPorId = async (oid: ObjectId) => await db.getOne("Usuarios", { _id: oid })
+    public obtenerTodosLosUsuarios = async () => await db.get("Usuarios")
+}
 
-export const addUser = async (user : {nombre:string, email:string, contrasenia: string}) => await db.insert("Usuarios",user)
 
-export const getUser = async (email: string,contrasenia: string) => await db.getOne("Usuarios",{email,contrasenia})
+
+export default UserServices
+
