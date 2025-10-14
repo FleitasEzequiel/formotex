@@ -12,6 +12,7 @@ class UserController {
     public login: Handler = async (req: Request, res: Response, _next: NextFunction) => {
         try {
             const { email, contrasenia } = req.body
+            console.log("acá", req.body)
             console.log("acá", await userServices.usuarioExiste(email))
             if (!(await userServices.usuarioExiste(email))) throw new Error("El usuario no existe")
             const user = await userServices.obtenerUsuario(new Empleado(email, contrasenia))

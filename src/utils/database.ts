@@ -1,7 +1,8 @@
 import { MongoClient, WithId, Document, Filter, WithoutId, OptionalId, AggregateOptions, AggregationCursor } from "mongodb";
 
 const DATABASE = "Formotex"
-export const client = (): MongoClient => new MongoClient("mongodb://localhost:27017/")
+const URI = process.env.MONGO_URI || "mongodb://localhost:27017/"
+export const client = (): MongoClient => new MongoClient(URI)
 
 const db =
 {
